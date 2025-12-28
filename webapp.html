@@ -97,7 +97,7 @@
     return;
   }
 
-  fetch(`https://eyessee-webapp.onrender.com/api/chat?owner_id=${userId}&chat_id=${chatId}`)
+  fetch(`http://37.252.23.186:8000/api/chat?owner_id=${userId}&chat_id=${chatId}`)
     .then(r => r.json())
     .then(d => {
       if (!d.ok) {
