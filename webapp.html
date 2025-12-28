@@ -103,7 +103,7 @@ if (!chatId) {
 }
 
 // 6️⃣ Загружаем чат
-fetch(`https://eyessee-webapp.html.onrender.com/api/chat?owner_id=${userId}&chat_id=${chatId}`)
+fetch(`https://eyessee-webapp.onrender.com/api/chat?owner_id=${userId}&chat_id=${chatId}`)
   .then(r => r.json())
   .then(d => {
     if (!d.ok) {
