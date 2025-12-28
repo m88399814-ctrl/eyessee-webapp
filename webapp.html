@@ -107,20 +107,30 @@ fetch(`/api/chat?owner_id=${userId}&chat_id=${chatId}`)
   .then(r => r.json())
   .then(d => {
     if (!d.ok) {
-      chatEl.innerHTML = "❌ Ошибка загрузки чата";
+      chatEl.innerHTML = "❌ Ошибка загрузки";
       return;
     }
-
+  
+    // 👇 ВАЖНО
+    if (!d.messages || d.messages.length === 0) {
+      chatEl.innerHTML = `
+        <div style="opacity:.6; font-size:22px; padding:20px;">
+          📭 В этом чате нет сохранённых сообщений
+        </div>
+      `;
+      return;
+    }
+  
     chatEl.innerHTML = "";
-
+  
     d.messages.forEach(m => {
       const isMine = m.is_owner === true;
-
+  
       let html = `
         <div class="msg ${isMine ? "me" : "other"}">
           <div class="name">${m.name || ""}</div>
       `;
-
+  
       if (m.type === "text") {
         html += `<div>${m.text || ""}</div>`;
       } else if (m.file_id) {
@@ -132,7 +142,7 @@ fetch(`/api/chat?owner_id=${userId}&chat_id=${chatId}`)
       } else {
         html += `<div class="media">❌ файл недоступен</div>`;
       }
-
+  
       html += `<div class="time">${new Date(m.time).toLocaleString()}</div></div>`;
       chatEl.insertAdjacentHTML("beforeend", html);
     });
